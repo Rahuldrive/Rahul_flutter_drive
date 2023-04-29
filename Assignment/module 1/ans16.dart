@@ -13,7 +13,8 @@ void main() {
     print("Second class");
   } else if (marks >= 35) {
     print("Pass class");
-  } else
+  } else {
     (marks <= 35);
-  print("Fail");
+    print("Fail");
+  }
 }

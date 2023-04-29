@@ -40,11 +40,13 @@ class Employee extends Member {
 class Manager extends Member {
   @override
   String? department;
-  Manager(name, age, phonenumber, address, salary, department) {
-    super.input(name, age, phonenumber, address, salary);
-    this.department = department;
+   Employee(name, age, phonenumber, address, salary, specialization){
+    super.input(name, age, phonenumber, address, salry);
+    
   }
+  this.department = department;
 }
+
 
 void display() {
   print("name");
@@ -57,6 +59,9 @@ void display() {
 void main() {
   var obj =
       Employee("Rahul", "25", "97236314589", "ahmedabad", "15000", "flutter");
-  var obj = Manager("Darshan", "25", "1234567890", "ahmedabad", "50000", "it");
+  obj.Manager("Darshan", "25", "1234567890", "ahmedabad", "50000", "it");
   obj.dispaly();
+
+  var obj2 = Manager();
+  obj2.();
 }

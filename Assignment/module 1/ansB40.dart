@@ -2,7 +2,7 @@ class Rectangle {
   int? length;
   int? breadth;
 
-  void input(Length, breagth) {
+  Rectangle(Length, breagth) {
     this.length = length;
     this.breadth = breadth;
   }
