@@ -29,6 +29,5 @@ class _list_exState extends State<list_ex> {
             );
           }),
     );
-    ;
   }
 }

@@ -1,46 +1,65 @@
-//@dart=2.9
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:splashscreen/splashscreen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(Myapp());
 }
 
-class MyApp extends StatelessWidget {
+class Myapp extends StatelessWidget {
+  const Myapp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Splash Screen',
-      theme: ThemeData.light(),
-      home: Splash(),
+      theme: ThemeData(primarySwatch: Colors.green),
+      home: HomePage(),
     );
   }
 }
 
-class Splash extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+        Duration(seconds: 3),
+        () => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => SecondScreen())));
+  }
+
   Widget build(BuildContext context) {
-    return SplashScreen(
-      seconds: 6,
-      navigateAfterSeconds: new SecondScreen(),
-      title: Text('MySplashApp', textScaleFactor: 2),
-      image: Image.network("bytes"),
-      loadingText: Text("Mysplash screen"),
-      photoSize: 100.0,
-      loaderColor: Colors.blue,
+    return Container(
+      color: Colors.white,
+      child: FlutterLogo(
+        size: MediaQuery.of(context).size.height,
+      ),
     );
   }
 }
 
 class SecondScreen extends StatelessWidget {
+  const SecondScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My App"),
+        title: Text("My Splash Screen"),
       ),
       body: Center(
-        child: Text("Welcome"),
+        child: Text(
+          "home page",
+          textScaleFactor: 2,
+        ),
       ),
     );
   }
