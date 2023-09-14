@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "962526691525",
+    "project_id": "digoitalsociety",
+    "storage_bucket": "digoitalsociety.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962526691525:android:37d6ebdfb8d1d5b5d930ac",
+        "android_client_info": {
+          "package_name": "com.example.degitalsociety"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962526691525-02hk7ad41vj85q0ute8si05lb06f46v8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.degitalsociety",
+            "certificate_hash": "858781454997ed8aa741e237705df931366d606e"
+          }
+        },
+        {
+          "client_id": "962526691525-3esg8k0gdhqol7jdhej04jbmmen2jj69.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqqT35obBKvM8ggHkipBLeUT_C-8GY3xk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "962526691525-3esg8k0gdhqol7jdhej04jbmmen2jj69.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
