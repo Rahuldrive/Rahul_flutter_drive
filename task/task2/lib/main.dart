@@ -59,7 +59,7 @@ class _SentenceReversalWidgetState extends State<SentenceReversalWidget> {
             onChanged: (value) {
               inputText = value;
             },
-            decoration: InputDecoration(labelText: 'Input Paragraph'),
+            decoration: InputDecoration(labelText: 'Input Sentance'),
           ),
           TextField(
             keyboardType: TextInputType.number,
@@ -74,7 +74,7 @@ class _SentenceReversalWidgetState extends State<SentenceReversalWidget> {
           ),
           SizedBox(height: 20),
           Text(
-            'Output Paragraph:',
+            'Output:',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(outputText),
