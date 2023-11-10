@@ -23,6 +23,30 @@ class _FirstPageState extends State<FirstPage> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  List<String> records = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final keys = prefs.getKeys();
+    keys.forEach((key) {
+      if (key.startsWith('email-')) {
+        final email = key.substring(6); // Remove 'email-' prefix
+        final name = prefs.getString('name-$email');
+        final age = prefs.getInt('age-$email');
+        final phone = prefs.getString('phone-$email');
+        final record = 'Email: $email, Name: $name, Age: $age, Phone: $phone';
+        setState(() {
+          records.add(record);
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +60,10 @@ class _FirstPageState extends State<FirstPage> {
             children: <Widget>[
               TextFormField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  border: OutlineInputBorder(),
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a name.';
@@ -44,30 +71,52 @@ class _FirstPageState extends State<FirstPage> {
                   return null;
                 },
               ),
+              SizedBox(height: 10),
               TextFormField(
                 controller: emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter an email.';
+                  } else if (!RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+')
+                      .hasMatch(value)) {
+                    return 'Please enter a valid email address (e.g., example@example.com).';
+                  } else if (records
+                      .any((record) => record.contains('Email: $value,'))) {
+                    return 'Email already exists.';
                   }
                   return null;
                 },
               ),
+              SizedBox(height: 10),
               TextFormField(
                 controller: phoneController,
                 maxLength: 10,
-                decoration: InputDecoration(labelText: 'Phone'),
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(
+                  labelText: 'Phone',
+                  border: OutlineInputBorder(),
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a phone number.';
+                  } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                    return 'Phone should contain only digits.';
                   }
                   return null;
                 },
               ),
+              SizedBox(height: 10),
               TextFormField(
                 controller: ageController,
-                decoration: InputDecoration(labelText: 'Age'),
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Age',
+                  border: OutlineInputBorder(),
+                ),
                 validator: (value) {
                   if (value!.isEmpty ||
                       int.tryParse(value) == null ||
@@ -78,6 +127,7 @@ class _FirstPageState extends State<FirstPage> {
                   return null;
                 },
               ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -97,13 +147,13 @@ class _FirstPageState extends State<FirstPage> {
 
   void saveData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final email = emailController.text;
-    prefs.setString('name', nameController.text);
-    prefs.setString('email', email);
-    prefs.setString('phone', phoneController.text);
-    prefs.setInt('age', int.parse(ageController.text));
-    // Use the email as the key for uniqueness
-    prefs.setString(email, email);
+    final email =
+        emailController.text.toLowerCase(); // Store email in lowercase
+    prefs.setString('name-$email', nameController.text);
+    prefs.setString('email-$email', email);
+    prefs.setString('phone-$email', phoneController.text);
+    prefs.setInt('age-$email', int.parse(ageController.text));
+    records.add(email);
     nameController.clear();
     emailController.clear();
     phoneController.clear();
@@ -129,11 +179,11 @@ class _SecondPageState extends State<SecondPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final keys = prefs.getKeys();
     keys.forEach((key) {
-      if (key != 'name' && key != 'phone' && key != 'age' && key != 'email') {
-        final email = key;
-        final name = prefs.getString('name');
-        final age = prefs.getInt('age');
-        final phone = prefs.getString('phone');
+      if (key.startsWith('email-')) {
+        final email = key.substring(6); // Remove 'email-' prefix
+        final name = prefs.getString('name-$email');
+        final age = prefs.getInt('age-$email');
+        final phone = prefs.getString('phone-$email');
         final record = 'Email: $email, Name: $name, Age: $age, Phone: $phone';
         setState(() {
           records.add(record);
@@ -145,7 +195,7 @@ class _SecondPageState extends State<SecondPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(' List Of Data')),
+      appBar: AppBar(title: Text('List Of Data')),
       body: RecordList(records: records),
     );
   }
@@ -168,7 +218,7 @@ class RecordList extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  sendEmail(records[index]);
+                  // sendEmail(records[index]); // You can implement sending email functionality here
                 },
                 child: Text('Mail'),
               ),
@@ -185,7 +235,7 @@ class RecordList extends StatelessWidget {
     );
   }
 
-  void sendEmail(String data) {}
+  // void sendEmail(String data) {} // You can implement sending email functionality here
 
   void viewData(BuildContext context, String data) {
     showModalBottomSheet(
